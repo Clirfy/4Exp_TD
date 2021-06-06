@@ -165,6 +165,9 @@ MonoBehaviour:
   <BuildGroundLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 128
+  <OriginMaterial>k__BackingField:
+  - {fileID: 0}
+  <ChildrenMeshRenderers>k__BackingField: []
 --- !u!1 &6473089620016020284
 GameObject:
   m_ObjectHideFlags: 0

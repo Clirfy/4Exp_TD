@@ -15,15 +15,18 @@ public class TowerController : MonoBehaviour
 
     private Camera MainCamera { get; set; }
     private bool IsPlaced { get; set; }
+    private MeshRenderer[] ChildrenMeshRenderers { get; set; }
 
-    public void Place()
-    {
-        IsPlaced = true;
-    }
 
     private void Awake()
     {
         MainCamera = Camera.main;
+        ChildrenMeshRenderers = gameObject.GetComponentsInChildren<MeshRenderer>();
+    }
+    public void Place()
+    {
+        IsPlaced = true;
+        ChangeMaterialColor(Color.white);
     }
 
     private void Update()
@@ -50,10 +53,26 @@ public class TowerController : MonoBehaviour
     private void DebugCheckIfCanBePlaced(Ray vRay)
     {
         IsOnBuildGround = Physics.Raycast(vRay, MaxRaycastDistance, BuildGroundLayerMask);
-        Debug.Log(IsOnBuildGround == true ? "can be placed" : "can't be placed");
+        //Debug.Log(IsOnBuildGround == true ? "can be placed" : "can't be placed");
+
+        if(IsOnBuildGround == true)
+        {
+            ChangeMaterialColor(Color.green);
+        }
+        if(IsOnBuildGround == false)
+        {
+            ChangeMaterialColor(Color.red);
+        }
     }
     public bool CheckIfCanBePlaced()
     {
         return IsOnBuildGround == true;
+    }
+    private void ChangeMaterialColor(Color color)
+    {
+        foreach (var item in ChildrenMeshRenderers)
+        {
+            item.material.color = color;
+        }
     }
 }

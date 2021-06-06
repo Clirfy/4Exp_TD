@@ -18,7 +18,7 @@ public class TowerManager : SingletonMonoBehaviour<TowerManager>
     }
     protected virtual void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Space) == true)
+        if (Input.GetKeyUp(KeyCode.Mouse0) == true)
         {
             TryPlaceTowerCandidate();
         }
