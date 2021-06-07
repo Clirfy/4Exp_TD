@@ -17,11 +17,14 @@ public class TowerController : MonoBehaviour
     private bool IsPlaced { get; set; }
     private MeshRenderer[] ChildrenMeshRenderers { get; set; }
 
-
     private void Awake()
     {
         MainCamera = Camera.main;
         ChildrenMeshRenderers = gameObject.GetComponentsInChildren<MeshRenderer>();
+    }
+    public void Cancel()
+    {
+        Destroy(gameObject);
     }
     public void Place()
     {

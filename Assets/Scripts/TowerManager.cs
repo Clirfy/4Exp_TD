@@ -16,8 +16,26 @@ public class TowerManager : SingletonMonoBehaviour<TowerManager>
             TowerCandidate = tower;
         }
     }
+    public void CancelTowerCandidate()
+    {
+        if (Input.GetKeyUp(KeyCode.Mouse1) && TowerCandidate == true)
+        {
+            TowerCandidate.Cancel();
+            TowerCandidate = null;
+        }
+    }
+    public void ChangeTowerCandidate()
+    {
+        if (TowerCandidate == true)
+        {
+            TowerCandidate.Cancel();
+            TowerCandidate = null;
+        }
+    }
     protected virtual void Update()
     {
+        CancelTowerCandidate();
+        
         if (Input.GetKeyUp(KeyCode.Mouse0) == true)
         {
             TryPlaceTowerCandidate();

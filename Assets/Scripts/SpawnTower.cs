@@ -9,6 +9,7 @@ public class SpawnTower : MonoBehaviour
 
     public void SpawnTowerPrefab()
     {
+        TowerManager.Instance.ChangeTowerCandidate();
         TowerManager.Instance.TrySpawnTowerPrefab(TowerPrefab);
     }
 }
