@@ -3561,7 +3561,7 @@ GameObject:
   - component: {fileID: 202178871}
   m_Layer: 8
   m_Name: FloorCollider
-  m_TagString: Untagged
+  m_TagString: DestinationPosition
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8607,9 +8607,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 531787231}
-  m_Layer: 0
+  - component: {fileID: 531787232}
+  m_Layer: 9
   m_Name: DestinationPosition
-  m_TagString: Untagged
+  m_TagString: DestinationPosition
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8628,6 +8629,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &531787232
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 531787230}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2, z: 2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &534315362
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36526,6 +36540,38 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6132432495712768832, guid: 0eefcd30d2a828a46a3a96f567e0e653, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6132432495712768832, guid: 0eefcd30d2a828a46a3a96f567e0e653, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6132432495712768832, guid: 0eefcd30d2a828a46a3a96f567e0e653, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6132432495712768832, guid: 0eefcd30d2a828a46a3a96f567e0e653, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6132432496043098226, guid: 0eefcd30d2a828a46a3a96f567e0e653, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6132432496043098226, guid: 0eefcd30d2a828a46a3a96f567e0e653, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6132432496043098226, guid: 0eefcd30d2a828a46a3a96f567e0e653, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6132432496043098226, guid: 0eefcd30d2a828a46a3a96f567e0e653, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6132432497098778760, guid: 0eefcd30d2a828a46a3a96f567e0e653, type: 3}
       propertyPath: m_Name
       value: Canvas
