@@ -25165,7 +25165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <SpawnPosition>k__BackingField: {fileID: 1454926903}
-  <EnemyPrefab>k__BackingField: {fileID: 1744539625027891030, guid: 1c0fdff7c1332814b85d16650232c581, type: 3}
+  <EnemyPrefab>k__BackingField: {fileID: 1744539625877013689, guid: 1c0fdff7c1332814b85d16650232c581, type: 3}
   <DestinationPosition>k__BackingField: {fileID: 531787231}
 --- !u!1001 &1455341374
 PrefabInstance:

@@ -6,16 +6,27 @@ using UnityEngine;
 public class TowerController : MonoBehaviour
 {
     [field: SerializeField]
+    private float AttackRatio{get; set;}
+    [field: SerializeField]
+    private int Damage{get; set;}
+    [field: SerializeField]
+    private float AttackRange{get; set;}
+    [field: SerializeField]
     private float MaxRaycastDistance { get; set; }
     [field: SerializeField]
     private LayerMask FloorLayerMask { get; set; }
     [field: SerializeField]
     private LayerMask BuildGroundLayerMask { get; set; }
+    [field: SerializeField]
+    private LayerMask EnemyLayerMask{get; set;}
     private bool IsOnBuildGround { get; set; }
 
     private Camera MainCamera { get; set; }
     private bool IsPlaced { get; set; }
     private MeshRenderer[] ChildrenMeshRenderers { get; set; }
+    private int targetCount;
+    private float attackTime;
+    Collider[] enemyColliders = new Collider[1];
 
     private void Awake()
     {
@@ -34,6 +45,8 @@ public class TowerController : MonoBehaviour
 
     private void Update()
     {
+        Attack();
+        TryGetEnemyInSphere();
         if(IsPlaced == true)
         {
             return;
@@ -76,6 +89,21 @@ public class TowerController : MonoBehaviour
         foreach (var item in ChildrenMeshRenderers)
         {
             item.material.color = color;
+        }
+    }
+
+    private void TryGetEnemyInSphere()
+    {
+        targetCount = Physics.OverlapSphereNonAlloc(gameObject.transform.position, AttackRange, enemyColliders, EnemyLayerMask);
+        Debug.Log(targetCount);
+    }
+    private void Attack()
+    {
+        
+        if(targetCount > 0 && Time.time > attackTime)
+        {
+            enemyColliders[targetCount -1].GetComponent<EnemyController>().TakeDamage(Damage);
+            attackTime = Time.time + AttackRatio;
         }
     }
 }

@@ -8,11 +8,11 @@ public class EnemySpawner : MonoBehaviour
     private Transform SpawnPosition { get; set; }
 
     [field: SerializeField]
-    private GameObject EnemyPrefab { get; set; }
+    private EnemyController EnemyPrefab { get; set; }
 
     [field: SerializeField]
     private Transform DestinationPosition { get; set; }
-
+    private List<EnemyController> EnemySpawnedCollection = new List<EnemyController>();
 
     private void Update()
     {
@@ -24,8 +24,10 @@ public class EnemySpawner : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.K))
         {
-            GameObject enemy = Instantiate(EnemyPrefab, SpawnPosition);
+            GameObject enemy = Instantiate(EnemyPrefab.gameObject, SpawnPosition);
             enemy.GetComponent<EnemyController>().Initialize(SpawnPosition.position, DestinationPosition.position);
+
+            EnemySpawnedCollection.Add(EnemyPrefab);
         }
     }
 
@@ -33,11 +35,17 @@ public class EnemySpawner : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.L))
         {
-            var enemy = GameObject.FindGameObjectsWithTag("Enemy");
-            foreach (var item in enemy)
+            //var enemy = GameObject.FindGameObjectsWithTag("Enemy");
+            foreach (var item in EnemySpawnedCollection)
             {
                 Destroy(item);
             }
         }
+    }
+
+    private void UnregisterEnemy(EnemyController enemy)
+    {
+        EnemySpawnedCollection.Remove(enemy);
+        enemy.OnEnemyDestroyEvent.RemoveListener(UnregisterEnemy);
     }
 }

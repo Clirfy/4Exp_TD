@@ -800,9 +800,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 439b5541447feae458b5e1abed222f6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <DestinationLayerMask>k__BackingField:
-    serializedVersion: 2
-    m_Bits: 512
+  <Hp>k__BackingField: 100
 --- !u!54 &6639330271762323685
 Rigidbody:
   m_ObjectHideFlags: 0
