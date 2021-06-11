@@ -158,6 +158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43dbc6c88c5c1db40b5b91933fa2fe4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <TowerCost>k__BackingField: 80
   <AttackRatio>k__BackingField: 1
   <Damage>k__BackingField: 10
   <AttackRange>k__BackingField: 10

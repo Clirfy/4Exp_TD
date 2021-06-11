@@ -494,6 +494,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43dbc6c88c5c1db40b5b91933fa2fe4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <TowerCost>k__BackingField: 50
+  <AttackRatio>k__BackingField: 0.5
+  <Damage>k__BackingField: 4
+  <AttackRange>k__BackingField: 12
   <MaxRaycastDistance>k__BackingField: 100
   <FloorLayerMask>k__BackingField:
     serializedVersion: 2
@@ -501,6 +505,9 @@ MonoBehaviour:
   <BuildGroundLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 128
+  <EnemyLayerMask>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &8808912296546405714
 GameObject:
   m_ObjectHideFlags: 0

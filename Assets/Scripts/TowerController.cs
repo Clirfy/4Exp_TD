@@ -4,7 +4,9 @@ using UnityEngine;
 
 [System.Serializable]
 public class TowerController : MonoBehaviour
-{
+{   
+    [field: SerializeField]
+    public int TowerCost { get; set; }
     [field: SerializeField]
     private float AttackRatio{get; set;}
     [field: SerializeField]
@@ -99,7 +101,6 @@ public class TowerController : MonoBehaviour
     }
     private void Attack()
     {
-        
         if(targetCount > 0 && Time.time > attackTime)
         {
             enemyColliders[targetCount -1].GetComponent<EnemyController>().TakeDamage(Damage);

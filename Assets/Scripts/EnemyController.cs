@@ -22,8 +22,7 @@ public class EnemyController : MonoBehaviour
     private void OnTriggerEnter(Collider collider)
     {
         Debug.Log("hit)");
-        Destroy(gameObject);
-        
+        Destroy(gameObject);   
     }
 
     private void OnDestroy()
