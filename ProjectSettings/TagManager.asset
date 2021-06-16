@@ -5,7 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
-  - DestinationPosition
+  - Destination
+  - Projectile
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,7 @@ TagManager:
   - Floor
   - Destination
   - Enemy
-  - 
+  - Projectile
   - 
   - 
   - 

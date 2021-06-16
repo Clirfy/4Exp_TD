@@ -4,15 +4,17 @@ using UnityEngine;
 
 [System.Serializable]
 public class TowerController : MonoBehaviour
-{   
+{
     [field: SerializeField]
     public int TowerCost { get; set; }
     [field: SerializeField]
-    private float AttackRatio{get; set;}
+    private float AttackRatio { get; set; }
     [field: SerializeField]
-    private int Damage{get; set;}
+    private int Damage { get; set; }
     [field: SerializeField]
-    private float AttackRange{get; set;}
+    private float AttackRange { get; set; }
+    [field: SerializeField]
+    public GameObject AttackRangeDisplay { get; set; }
     [field: SerializeField]
     private float MaxRaycastDistance { get; set; }
     [field: SerializeField]
@@ -20,7 +22,7 @@ public class TowerController : MonoBehaviour
     [field: SerializeField]
     private LayerMask BuildGroundLayerMask { get; set; }
     [field: SerializeField]
-    private LayerMask EnemyLayerMask{get; set;}
+    private LayerMask EnemyLayerMask { get; set; }
     private bool IsOnBuildGround { get; set; }
 
     private Camera MainCamera { get; set; }
@@ -28,10 +30,17 @@ public class TowerController : MonoBehaviour
     private MeshRenderer[] ChildrenMeshRenderers { get; set; }
     private int targetCount;
     private float attackTime;
-    Collider[] enemyColliders = new Collider[1];
+    [field: SerializeField]
+    private Collider[] enemyColliders { get; set; } = new Collider[1];
+    [field: SerializeField]
+    private Projectile ProjectilePrefab { get; set; }
+    [field: SerializeField]
+    private Transform ShootingPosition { get; set; }
+
 
     private void Awake()
     {
+        AttackRangeDisplay.transform.localScale = new Vector3(AttackRange * 2, 0, AttackRange * 2);
         MainCamera = Camera.main;
         ChildrenMeshRenderers = gameObject.GetComponentsInChildren<MeshRenderer>();
     }
@@ -47,10 +56,10 @@ public class TowerController : MonoBehaviour
 
     private void Update()
     {
-        Attack();
-        TryGetEnemyInSphere();
-        if(IsPlaced == true)
+        if (IsPlaced == true)
         {
+            TryGetEnemyInSphere();
+            Attack();
             return;
         }
 
@@ -73,13 +82,17 @@ public class TowerController : MonoBehaviour
         IsOnBuildGround = Physics.Raycast(vRay, MaxRaycastDistance, BuildGroundLayerMask);
         //Debug.Log(IsOnBuildGround == true ? "can be placed" : "can't be placed");
 
-        if(IsOnBuildGround == true)
+        if (IsOnBuildGround == true)
         {
             ChangeMaterialColor(Color.green);
         }
-        if(IsOnBuildGround == false)
+        else
         {
             ChangeMaterialColor(Color.red);
+        }
+        if(GameManager.Instance.Money < TowerCost)
+        {
+            ChangeMaterialColor(Color.black);
         }
     }
     public bool CheckIfCanBePlaced()
@@ -101,9 +114,12 @@ public class TowerController : MonoBehaviour
     }
     private void Attack()
     {
-        if(targetCount > 0 && Time.time > attackTime)
+        if (targetCount > 0 && Time.time > attackTime)
         {
-            enemyColliders[targetCount -1].GetComponent<EnemyController>().TakeDamage(Damage);
+            Projectile projectile = Instantiate(ProjectilePrefab, ShootingPosition.position, ShootingPosition.rotation);
+            projectile.LaunchAtTarget(enemyColliders[0].gameObject, Damage);
+
+            //enemyColliders[targetCount -1].GetComponent<EnemyController>().TakeDamage(Damage);
             attackTime = Time.time + AttackRatio;
         }
     }

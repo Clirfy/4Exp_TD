@@ -4,30 +4,68 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+    public List<EnemyController> EnemySpawnedCollection { get; set; } = new List<EnemyController>();
     [field: SerializeField]
     private Transform SpawnPosition { get; set; }
 
     [field: SerializeField]
-    private EnemyController EnemyPrefab { get; set; }
+    private List<EnemyController> EnemyPrefab { get; set; } = new List<EnemyController>();
 
     [field: SerializeField]
     private Transform DestinationPosition { get; set; }
-    private List<EnemyController> EnemySpawnedCollection = new List<EnemyController>();
+    [field: SerializeField]
+    private float MinSpawnRate { get; set; }
+    [field: SerializeField]
+    private float MaxSpawnRate { get; set; }
+    [field: SerializeField]
+    private float SpawnRateTimer { get; set; }
+    [field: SerializeField]
+    private float SpawnRate { get; set; }
+    [field: SerializeField]
+    private float FastenSpawnRateInterval { get; set; }
+
+    private void Awake()
+    {
+        SpawnRateTimer = MinSpawnRate;
+        SpawnRate = MinSpawnRate;
+    }
 
     private void Update()
     {
-        SpawnEnemy();
+        SpawnEnemyAutomaticly();
+        SpawnEnemyManualy();
         DestroySpawnedEnemies();
     }
 
     private void SpawnEnemy()
     {
+        int randomEnemyToSpawn = Random.Range(0, EnemyPrefab.Count);
+        EnemyController enemy = Instantiate(EnemyPrefab[randomEnemyToSpawn], SpawnPosition);
+        enemy.Initialize(DestinationPosition.position);
+
+        EnemySpawnedCollection.Add(enemy);
+        enemy.OnEnemyDestroy.AddListener(UnregisterEnemy);
+    }
+
+    private void SpawnEnemyAutomaticly()
+    {
+        SpawnRateTimer -= Time.deltaTime;
+
+        if (SpawnRateTimer <= 0)
+        {
+            SpawnRate -= FastenSpawnRateInterval;
+            SpawnRate = Mathf.Clamp(SpawnRate, MaxSpawnRate, MinSpawnRate);
+            SpawnRateTimer = SpawnRate;
+
+            SpawnEnemy();
+        }
+    }
+
+    private void SpawnEnemyManualy()
+    {
         if (Input.GetKeyDown(KeyCode.K))
         {
-            GameObject enemy = Instantiate(EnemyPrefab.gameObject, SpawnPosition);
-            enemy.GetComponent<EnemyController>().Initialize(SpawnPosition.position, DestinationPosition.position);
-
-            EnemySpawnedCollection.Add(EnemyPrefab);
+            SpawnEnemy();
         }
     }
 
@@ -36,16 +74,17 @@ public class EnemySpawner : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L))
         {
             //var enemy = GameObject.FindGameObjectsWithTag("Enemy");
-            foreach (var item in EnemySpawnedCollection)
+            foreach (EnemyController enemy in EnemySpawnedCollection)
             {
-                Destroy(item);
+                Destroy(enemy.gameObject);
             }
         }
     }
 
     private void UnregisterEnemy(EnemyController enemy)
     {
+        //Debug.Log("Enemy Unregistered" + enemy);
         EnemySpawnedCollection.Remove(enemy);
-        enemy.OnEnemyDestroyEvent.RemoveListener(UnregisterEnemy);
+        enemy.OnEnemyDestroy.RemoveListener(UnregisterEnemy);
     }
 }

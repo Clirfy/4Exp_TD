@@ -10,7 +10,7 @@ public class TowerManager : SingletonMonoBehaviour<TowerManager>
 
     public void TrySpawnTowerPrefab(TowerController towerPrefab)
     {
-        if(TowerCandidate == false)
+        if (TowerCandidate == false)
         {
             TowerController tower = Instantiate(towerPrefab, gameObject.transform);
             TowerCandidate = tower;
@@ -34,8 +34,9 @@ public class TowerManager : SingletonMonoBehaviour<TowerManager>
     }
     protected virtual void Update()
     {
+        ShowAttackRange();
         CancelTowerCandidate();
-        
+
         if (Input.GetKeyUp(KeyCode.Mouse0) == true)
         {
             TryPlaceTowerCandidate();
@@ -43,11 +44,11 @@ public class TowerManager : SingletonMonoBehaviour<TowerManager>
     }
     private void TryPlaceTowerCandidate()
     {
-        if(TowerCandidate == false)
+        if (TowerCandidate == false)
         {
             return;
         }
-        if(TowerCandidate.CheckIfCanBePlaced() == true)
+        if (TowerCandidate.CheckIfCanBePlaced() == true && GameManager.Instance.TryBuyTower(TowerCandidate) == true)
         {
             PlaceTower();
         }
@@ -57,5 +58,23 @@ public class TowerManager : SingletonMonoBehaviour<TowerManager>
         TowerRegistry.Add(TowerCandidate);
         TowerCandidate.Place();
         TowerCandidate = null;
+    }
+    private void ShowAttackRange()
+    {
+        if (Input.GetKey(KeyCode.Mouse2))
+        {
+            for (int i = 0; i < TowerRegistry.Count; i++)
+            {
+                TowerRegistry[i].AttackRangeDisplay.SetActive(true);
+                Debug.Log(TowerRegistry[i] + " range displayed");
+            }
+        }
+        else
+        {
+            for (int i = 0; i < TowerRegistry.Count; i++)
+            {
+                TowerRegistry[i].AttackRangeDisplay.SetActive(false);
+            }
+        }
     }
 }
