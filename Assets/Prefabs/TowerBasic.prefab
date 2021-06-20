@@ -293,20 +293,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <TowerCost>k__BackingField: 80
-  <AttackRatio>k__BackingField: 1
-  <Damage>k__BackingField: 15
-  <AttackRange>k__BackingField: 5
+  <TowerAttackData>k__BackingField: {fileID: 11400000, guid: a77e9c4688aa9aa4d9a6de96539650df, type: 2}
+  <TowerLayerData>k__BackingField: {fileID: 11400000, guid: e1a82f2174a924344ad45dda9cf8ce7b, type: 2}
   <AttackRangeDisplay>k__BackingField: {fileID: 4309123435114847602}
   <MaxRaycastDistance>k__BackingField: 100
-  <FloorLayerMask>k__BackingField:
-    serializedVersion: 2
-    m_Bits: 256
-  <BuildGroundLayerMask>k__BackingField:
-    serializedVersion: 2
-    m_Bits: 128
-  <EnemyLayerMask>k__BackingField:
-    serializedVersion: 2
-    m_Bits: 1024
+  <IsOnBuildGround>k__BackingField: 0
   <enemyColliders>k__BackingField:
   - {fileID: 0}
   <ProjectilePrefab>k__BackingField: {fileID: 4513119101473202796, guid: 5ade54f7ef3fa904eb9bb09a322db6e4, type: 3}

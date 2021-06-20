@@ -7,43 +7,35 @@ public class TowerController : MonoBehaviour
 {
     [field: SerializeField]
     public int TowerCost { get; set; }
-    [field: SerializeField]
-    private float AttackRatio { get; set; }
     private float TimeSinceLastShot { get; set; }
     [field: SerializeField]
-    private int Damage { get; set; }
+    private TowerAttackData TowerAttackData { get; set; }
     [field: SerializeField]
-    private float AttackRange { get; set; }
+    private TowerLayerData TowerLayerData { get; set; }
     [field: SerializeField]
     public GameObject AttackRangeDisplay { get; set; }
     [field: SerializeField]
     private float MaxRaycastDistance { get; set; }
     [field: SerializeField]
-    private LayerMask FloorLayerMask { get; set; }
-    [field: SerializeField]
-    private LayerMask BuildGroundLayerMask { get; set; }
-    [field: SerializeField]
-    private LayerMask EnemyLayerMask { get; set; }
     private bool IsOnBuildGround { get; set; }
-
     private Camera MainCamera { get; set; }
     private bool IsPlaced { get; set; }
     private MeshRenderer[] ChildrenMeshRenderers { get; set; }
-    private int targetCount;
     [field: SerializeField]
     private Collider[] enemyColliders { get; set; } = new Collider[1];
     [field: SerializeField]
     private Projectile ProjectilePrefab { get; set; }
     [field: SerializeField]
     private Transform ShootingPosition { get; set; }
+    private int TargetCount { get; set; }
 
 
     private void Awake()
     {
-        AttackRangeDisplay.transform.localScale = new Vector3(AttackRange * 2, 0, AttackRange * 2);
+        AttackRangeDisplay.transform.localScale = new Vector3(TowerAttackData.AttackRange * 2, 0, TowerAttackData.AttackRange * 2);
         MainCamera = Camera.main;
         ChildrenMeshRenderers = gameObject.GetComponentsInChildren<MeshRenderer>();
-        TimeSinceLastShot = AttackRatio;
+        TimeSinceLastShot = TowerAttackData.AttackRatio;
     }
     public void Cancel()
     {
@@ -67,7 +59,7 @@ public class TowerController : MonoBehaviour
             FollowMousePosition(vRay);
             FeedbackCheckIfCanBePlaced(vRay);
         }
-        else if(TimeSinceLastShot > AttackRatio)
+        else if(TimeSinceLastShot > TowerAttackData.AttackRatio)
         {
             Attack();
         }
@@ -75,14 +67,14 @@ public class TowerController : MonoBehaviour
 
     private void FollowMousePosition(Ray vRay)
     {
-        if (Physics.Raycast(vRay, out RaycastHit vHit, MaxRaycastDistance, FloorLayerMask) == true)
+        if (Physics.Raycast(vRay, out RaycastHit vHit, MaxRaycastDistance, TowerLayerData.FloorLayerMask) == true)
         {
             transform.position = new Vector3(vHit.point.x, 1.5f, vHit.point.z);
         }
     }
     private void FeedbackCheckIfCanBePlaced(Ray vRay)
     {
-        IsOnBuildGround = Physics.Raycast(vRay, MaxRaycastDistance, BuildGroundLayerMask);
+        IsOnBuildGround = Physics.Raycast(vRay, MaxRaycastDistance, TowerLayerData.BuildGroundLayerMask);
 
         if (IsOnBuildGround == true)
         {
@@ -112,12 +104,12 @@ public class TowerController : MonoBehaviour
 
     private void Attack()
     {
-        int targetCount = Physics.OverlapSphereNonAlloc(gameObject.transform.position, AttackRange, enemyColliders, EnemyLayerMask);
+        TargetCount = Physics.OverlapSphereNonAlloc(gameObject.transform.position, TowerAttackData.AttackRange, enemyColliders, TowerLayerData.EnemyLayerMask);
 
-        if (targetCount > 0)
+        if (TargetCount > 0)
         {
             Projectile projectile = Instantiate(ProjectilePrefab, ShootingPosition.position, ShootingPosition.rotation);
-            projectile.LaunchAtTarget(enemyColliders[0].GetComponent<EnemyController>(), Damage);
+            projectile.LaunchAtTarget(enemyColliders[0].GetComponent<EnemyController>(), TowerAttackData.AttackDamage);
 
             TimeSinceLastShot = 0.0f;
         }

@@ -1,18 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HpTextUpdater : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [field: SerializeField]
+    private Text Text { get; set; }
+
+    private void Start()
     {
-        
+        UpdateText(GameManager.Instance.Hp);
+        GameManager.Instance.OnHpChanged += ListenOnHpChanged;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void ListenOnHpChanged()
     {
-        
+        UpdateText(GameManager.Instance.Hp);
+    }
+    private void UpdateText(int ammount)
+    {
+        Text.text = "Health: " + ammount;
     }
 }

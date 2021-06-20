@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class GameManager : SingletonMonoBehaviour<GameManager>
 {
     public event Action OnCoinsAmmountChanged = delegate { };
+    public event Action OnHpChanged = delegate { };
+
     [field: SerializeField]
     public int Hp { get; set; }
     [field: SerializeField]
@@ -41,9 +43,10 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         OnCoinsAmmountChanged.Invoke();
     }
 
-    public int TakeDamage(int damage)
+    public void TakeDamage(int damage)
     {
-        return Hp -= damage;
+        Hp -= damage;
+        OnHpChanged.Invoke();
     }
 
     public void GameOver()
@@ -51,6 +54,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         if (Hp <= 0)
         {
             GameOverImage.SetActive(true);
+            Time.timeScale = 0f;
         }
     }
 }
