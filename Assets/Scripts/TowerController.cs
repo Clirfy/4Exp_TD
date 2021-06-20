@@ -43,11 +43,13 @@ public class TowerController : MonoBehaviour
         AttackRangeDisplay.transform.localScale = new Vector3(AttackRange * 2, 0, AttackRange * 2);
         MainCamera = Camera.main;
         ChildrenMeshRenderers = gameObject.GetComponentsInChildren<MeshRenderer>();
+        TimeSinceLastShot = AttackRatio;
     }
     public void Cancel()
     {
         Destroy(gameObject);
     }
+
     public void Place()
     {
         IsPlaced = true;

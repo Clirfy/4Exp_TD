@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public List<EnemyController> EnemySpawnedCollection { get; set; } = new List<EnemyController>();
+    public List<EnemyController> EnemySpawnedCollection { get; set; }
     [field: SerializeField]
     private Transform SpawnPosition { get; set; }
 
@@ -14,27 +14,39 @@ public class EnemySpawner : MonoBehaviour
     [field: SerializeField]
     private Transform DestinationPosition { get; set; }
     [field: SerializeField]
-    private float MinSpawnRate { get; set; }
+    private int MaxEnemiesNumber { get; set; }
     [field: SerializeField]
     private float MaxSpawnRate { get; set; }
     [field: SerializeField]
-    private float SpawnRateTimer { get; set; }
+    private float MinSpawnRate { get; set; }
     [field: SerializeField]
-    private float SpawnRate { get; set; }
+    private float TimeToReachMinSpawnRate { get; set; }
     [field: SerializeField]
-    private float FastenSpawnRateInterval { get; set; }
+    private float CurrentSpawnRate { get; set; }
+    private float TimeSinceLastSpawn { get; set; }
 
     private void Awake()
     {
-        SpawnRateTimer = MinSpawnRate;
-        SpawnRate = MinSpawnRate;
+        EnemySpawnedCollection = new List<EnemyController>();
+        CurrentSpawnRate = MaxSpawnRate;
     }
 
     private void Update()
     {
-        SpawnEnemyAutomaticly();
+        TimeSinceLastSpawn += Time.deltaTime;
+
         SpawnEnemyManualy();
         DestroySpawnedEnemies();
+
+        if(EnemySpawnedCollection.Count < MaxEnemiesNumber && TimeSinceLastSpawn >= CurrentSpawnRate)
+        {
+            SpawnEnemy();
+            TimeSinceLastSpawn = 0.0f;
+        }
+        if(CurrentSpawnRate > MinSpawnRate)
+        {
+            CurrentSpawnRate = Mathf.Lerp(MaxSpawnRate, MinSpawnRate, Time.time / TimeToReachMinSpawnRate);
+        }
     }
 
     private void SpawnEnemy()
@@ -45,20 +57,6 @@ public class EnemySpawner : MonoBehaviour
 
         EnemySpawnedCollection.Add(enemy);
         enemy.OnEnemyDestroy.AddListener(UnregisterEnemy);
-    }
-
-    private void SpawnEnemyAutomaticly()
-    {
-        SpawnRateTimer -= Time.deltaTime;
-
-        if (SpawnRateTimer <= 0)
-        {
-            SpawnRate -= FastenSpawnRateInterval;
-            SpawnRate = Mathf.Clamp(SpawnRate, MaxSpawnRate, MinSpawnRate);
-            SpawnRateTimer = SpawnRate;
-
-            SpawnEnemy();
-        }
     }
 
     private void SpawnEnemyManualy()

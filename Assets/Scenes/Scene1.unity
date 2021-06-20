@@ -9051,8 +9051,9 @@ GameObject:
   - component: {fileID: 546646850}
   - component: {fileID: 546646852}
   - component: {fileID: 546646851}
+  - component: {fileID: 546646853}
   m_Layer: 5
-  m_Name: MonkeyTedxt
+  m_Name: MonkeyText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9119,6 +9120,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 546646849}
   m_CullTransparentMesh: 1
+--- !u!114 &546646853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 546646849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c01b0865f95ea14db40f44dc25e5146, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Text>k__BackingField: {fileID: 546646851}
 --- !u!1001 &546786475
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25436,11 +25450,11 @@ MonoBehaviour:
   <EnemyPrefab>k__BackingField:
   - {fileID: 8566167632528914403, guid: 1c0fdff7c1332814b85d16650232c581, type: 3}
   <DestinationPosition>k__BackingField: {fileID: 531787231}
-  <MinSpawnRate>k__BackingField: 99999
-  <MaxSpawnRate>k__BackingField: 0.5
-  <SpawnRateTimer>k__BackingField: 0
-  <SpawnRate>k__BackingField: 0
-  <FastenSpawnRateInterval>k__BackingField: 0.01
+  <MaxEnemiesNumber>k__BackingField: 5
+  <MaxSpawnRate>k__BackingField: 3
+  <MinSpawnRate>k__BackingField: 0.5
+  <TimeToReachMinSpawnRate>k__BackingField: 120
+  <CurrentSpawnRate>k__BackingField: 0
 --- !u!1001 &1455341374
 PrefabInstance:
   m_ObjectHideFlags: 0
