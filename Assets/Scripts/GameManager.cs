@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,30 +6,27 @@ using UnityEngine.UI;
 
 public class GameManager : SingletonMonoBehaviour<GameManager>
 {
+    public event Action OnCoinsAmmountChanged = delegate { };
     [field: SerializeField]
     public int Hp { get; set; }
     [field: SerializeField]
     public int Money { get; set; }
-    [field: SerializeField]
-    private Text HpText { get; set; }
-    [field: SerializeField]
-    private Text MoneyText { get; set; }
     [field: SerializeField]
     private GameObject GameOverImage { get; set; }
 
     private void Update()
     {
         GameOver();
-        UpdateHUD();
     }
 
     public bool TryBuyTower(TowerController tower)
     {
         int towerCost = tower.TowerCost;
 
-        if(towerCost <= Money)
+        if (towerCost <= Money)
         {
             Money -= towerCost;
+            OnCoinsAmmountChanged.Invoke();
             return true;
         }
         else
@@ -37,9 +35,10 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         }
     }
 
-    public int AddMoney(int moneyAmmount)
+    public void AddMoney(int moneyAmmount)
     {
-        return Money += moneyAmmount;
+        Money += moneyAmmount;
+        OnCoinsAmmountChanged.Invoke();
     }
 
     public int TakeDamage(int damage)
@@ -49,14 +48,9 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
 
     public void GameOver()
     {
-        if(Hp <= 0)
+        if (Hp <= 0)
         {
             GameOverImage.SetActive(true);
         }
-    }
-    private void UpdateHUD()
-    {
-        HpText.text = "Hp: " + Hp;
-        MoneyText.text = "Money: " + Money;
     }
 }

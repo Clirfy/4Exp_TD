@@ -7,31 +7,41 @@ public class Projectile : MonoBehaviour
     [field: SerializeField]
     private float Speed { get; set; }
     private int Damage { get; set; }
-    private GameObject Target { get; set; }
+    private EnemyController Target { get; set; }
 
-    public void LaunchAtTarget(GameObject target, int damage)
+    public void LaunchAtTarget(EnemyController target, int damage)
     {
-        Target = target.gameObject;
+        Target = target;
         Damage = damage;
 
-        Target.GetComponent<EnemyController>().OnEnemyDestroy.AddListener(UnregisterEnemy);
+        Target.OnEnemyDestroy.AddListener(OnEnemyDestroyedBeforeReached);
     }
 
     private void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, Target.transform.position, Speed * Time.deltaTime);
+        FollowTarget();
+    }
+
+    private void FollowTarget()
+    {
+        Vector3 cachedThisPosition = transform.position;
+        Vector3 cachedTargetPosition = Target.transform.position;
+
+        float step = Speed * Time.deltaTime;
+        Vector3 FaceTarget = (cachedTargetPosition - cachedThisPosition).normalized;
+
+        transform.position = Vector3.MoveTowards(cachedThisPosition, cachedTargetPosition, step);
+        transform.rotation = Quaternion.LookRotation(FaceTarget);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Projectile hit Enemy");
-        other.GetComponent<EnemyController>().TakeDamage(Damage);
+        Target.TakeDamage(Damage);
         Destroy(gameObject);
     }
 
-    private void UnregisterEnemy(EnemyController enemy)
+    private void OnEnemyDestroyedBeforeReached(EnemyController enemy)
     {
-        enemy.OnEnemyDestroy.RemoveListener(UnregisterEnemy);
         Destroy(gameObject);
     }
 }

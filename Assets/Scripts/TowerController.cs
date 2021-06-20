@@ -9,6 +9,7 @@ public class TowerController : MonoBehaviour
     public int TowerCost { get; set; }
     [field: SerializeField]
     private float AttackRatio { get; set; }
+    private float TimeSinceLastShot { get; set; }
     [field: SerializeField]
     private int Damage { get; set; }
     [field: SerializeField]
@@ -29,7 +30,6 @@ public class TowerController : MonoBehaviour
     private bool IsPlaced { get; set; }
     private MeshRenderer[] ChildrenMeshRenderers { get; set; }
     private int targetCount;
-    private float attackTime;
     [field: SerializeField]
     private Collider[] enemyColliders { get; set; } = new Collider[1];
     [field: SerializeField]
@@ -56,18 +56,19 @@ public class TowerController : MonoBehaviour
 
     private void Update()
     {
-        if (IsPlaced == true)
+        TimeSinceLastShot += Time.deltaTime;
+
+        if(IsPlaced == false)
         {
-            TryGetEnemyInSphere();
-            Attack();
-            return;
+            Ray vRay = MainCamera.ScreenPointToRay(Input.mousePosition);
+
+            FollowMousePosition(vRay);
+            FeedbackCheckIfCanBePlaced(vRay);
         }
-
-        Ray vRay = MainCamera.ScreenPointToRay(Input.mousePosition);
-
-        FollowMousePosition(vRay);
-        DebugCheckIfCanBePlaced(vRay);
-
+        else if(TimeSinceLastShot > AttackRatio)
+        {
+            Attack();
+        }
     }
 
     private void FollowMousePosition(Ray vRay)
@@ -77,10 +78,9 @@ public class TowerController : MonoBehaviour
             transform.position = new Vector3(vHit.point.x, 1.5f, vHit.point.z);
         }
     }
-    private void DebugCheckIfCanBePlaced(Ray vRay)
+    private void FeedbackCheckIfCanBePlaced(Ray vRay)
     {
         IsOnBuildGround = Physics.Raycast(vRay, MaxRaycastDistance, BuildGroundLayerMask);
-        //Debug.Log(IsOnBuildGround == true ? "can be placed" : "can't be placed");
 
         if (IsOnBuildGround == true)
         {
@@ -90,7 +90,8 @@ public class TowerController : MonoBehaviour
         {
             ChangeMaterialColor(Color.red);
         }
-        if(GameManager.Instance.Money < TowerCost)
+
+        if (GameManager.Instance.Money < TowerCost)
         {
             ChangeMaterialColor(Color.black);
         }
@@ -107,20 +108,16 @@ public class TowerController : MonoBehaviour
         }
     }
 
-    private void TryGetEnemyInSphere()
-    {
-        targetCount = Physics.OverlapSphereNonAlloc(gameObject.transform.position, AttackRange, enemyColliders, EnemyLayerMask);
-        Debug.Log(targetCount);
-    }
     private void Attack()
     {
-        if (targetCount > 0 && Time.time > attackTime)
+        int targetCount = Physics.OverlapSphereNonAlloc(gameObject.transform.position, AttackRange, enemyColliders, EnemyLayerMask);
+
+        if (targetCount > 0)
         {
             Projectile projectile = Instantiate(ProjectilePrefab, ShootingPosition.position, ShootingPosition.rotation);
-            projectile.LaunchAtTarget(enemyColliders[0].gameObject, Damage);
+            projectile.LaunchAtTarget(enemyColliders[0].GetComponent<EnemyController>(), Damage);
 
-            //enemyColliders[targetCount -1].GetComponent<EnemyController>().TakeDamage(Damage);
-            attackTime = Time.time + AttackRatio;
+            TimeSinceLastShot = 0.0f;
         }
     }
 }
