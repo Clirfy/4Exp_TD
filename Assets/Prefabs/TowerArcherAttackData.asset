@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eada56e1dd68bb4b81785526aaa9719, type: 3}
   m_Name: TowerArcherAttackData
   m_EditorClassIdentifier: 
-  <AttackDamage>k__BackingField: 0
+  <AttackDamage>k__BackingField: 7
+  <AttackRange>k__BackingField: 8
+  <AttackRatio>k__BackingField: 0.5
