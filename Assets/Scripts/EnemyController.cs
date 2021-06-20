@@ -26,10 +26,8 @@ public class EnemyController : MonoBehaviour
     private Slider HpSlider { get; set; }
     [field: SerializeField]
     private NavMeshAgent MeshAgent { get; set; }
-    //[field: SerializeField]
-    //private Transform ModelTransform { get; set; }
-    //[field: SerializeField]
-    //private GameObject SliderTransform { get; set; }
+
+    private Camera MainCamera;
 
     private void Awake()
     {
@@ -41,8 +39,6 @@ public class EnemyController : MonoBehaviour
     {
         ShootedDown();
         HpSlider.value = HpCurrent;
-        //SliderTransform.transform.position = ModelTransform.position;
-        //SliderTransform.transform.LookAt(Camera.main.transform);
     }
 
     public void Initialize(Vector3 endPosition)

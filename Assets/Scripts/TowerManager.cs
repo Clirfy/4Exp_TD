@@ -34,7 +34,7 @@ public class TowerManager : SingletonMonoBehaviour<TowerManager>
     }
     protected virtual void Update()
     {
-        ShowAttackRange();
+        //ShowAttackRange();
         CancelTowerCandidate();
 
         if (Input.GetKeyUp(KeyCode.Mouse0) == true)
@@ -59,22 +59,22 @@ public class TowerManager : SingletonMonoBehaviour<TowerManager>
         TowerCandidate.Place();
         TowerCandidate = null;
     }
-    private void ShowAttackRange()
-    {
-        if (Input.GetKey(KeyCode.Mouse2))
-        {
-            for (int i = 0; i < TowerRegistry.Count; i++)
-            {
-                TowerRegistry[i].AttackRangeDisplay.SetActive(true);
-                Debug.Log(TowerRegistry[i] + " range displayed");
-            }
-        }
-        else
-        {
-            for (int i = 0; i < TowerRegistry.Count; i++)
-            {
-                TowerRegistry[i].AttackRangeDisplay.SetActive(false);
-            }
-        }
-    }
+    //private void ShowAttackRange()
+    //{
+    //    if (Input.GetKey(KeyCode.Mouse2))
+    //    {
+    //        for (int i = 0; i < TowerRegistry.Count; i++)
+    //        {
+    //            TowerRegistry[i].AttackRangeDisplay.SetActive(true);
+    //            Debug.Log(TowerRegistry[i] + " range displayed");
+    //        }
+    //    }
+    //    else
+    //    {
+    //        for (int i = 0; i < TowerRegistry.Count; i++)
+    //        {
+    //            TowerRegistry[i].AttackRangeDisplay.SetActive(false);
+    //        }
+    //    }
+    //}
 }
