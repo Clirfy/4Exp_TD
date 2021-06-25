@@ -15,10 +15,14 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     public int Money { get; set; }
     [field: SerializeField]
     private GameObject GameOverImage { get; set; }
+    [field: SerializeField]
+    private GameObject PauseImage { get; set; }
+    private bool IsGamePaused { get; set; } = false;
 
     private void Update()
     {
         GameOver();
+        Pause();
     }
 
     public bool TryBuyTower(TowerController tower)
@@ -55,6 +59,23 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         {
             GameOverImage.SetActive(true);
             Time.timeScale = 0f;
+        }
+    }
+
+    private void Pause()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) == true)
+        {
+            IsGamePaused = !IsGamePaused;
+        }
+
+        if(IsGamePaused == true)
+        {
+            PauseImage.SetActive(true);
+        }
+        else
+        {
+            PauseImage.SetActive(false);
         }
     }
 }
