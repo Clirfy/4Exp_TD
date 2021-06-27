@@ -31,6 +31,10 @@ public class TowerController : MonoBehaviour
     private Transform ShootingPosition { get; set; }
     private int TargetCount { get; set; }
     private float TimeSinceLastShot { get; set; }
+    private Vector3 BuildPosition { get; set; }
+    private bool IsStaingOnBuildGround { get; set; }
+    private BuildSpot BuildSpot { get; set; }
+    public bool IsReadyToPlaceTower { get; set; }
 
     private void Awake()
     {
@@ -53,24 +57,35 @@ public class TowerController : MonoBehaviour
     public void Place()
     {
         IsPlaced = true;
+        transform.position = BuildPosition;
         ChangeMaterialColor(Color.white);
+
+        if(BuildSpot != null)
+        {
+            BuildSpot.SetAsOccupied();
+        }
     }
 
     private void Update()
     {
         TimeSinceLastShot += Time.deltaTime;
 
-        if(IsPlaced == false)
+        if (IsPlaced == false)
         {
             Ray vRay = MainCamera.ScreenPointToRay(Input.mousePosition);
 
             FollowMousePosition(vRay);
             FeedbackCheckIfCanBePlaced(vRay);
         }
-        else if(TimeSinceLastShot > TowerAttackData.AttackRatio)
+        else if (TimeSinceLastShot > TowerAttackData.AttackRatio)
         {
             AttackRangeSlot.gameObject.SetActive(false);
             Attack();
+        }
+
+        if (IsStaingOnBuildGround == true)
+        {
+            transform.position = BuildPosition;
         }
     }
 
@@ -78,7 +93,7 @@ public class TowerController : MonoBehaviour
     {
         if (Physics.Raycast(vRay, out RaycastHit vHit, MaxRaycastDistance, TowerLayerData.FloorLayerMask) == true)
         {
-            transform.position = new Vector3(vHit.point.x, 1.5f, vHit.point.z);
+            transform.position = new Vector3(vHit.point.x, 0.1f, vHit.point.z);
         }
     }
 
@@ -93,6 +108,7 @@ public class TowerController : MonoBehaviour
         else
         {
             ChangeMaterialColor(Color.red);
+            IsStaingOnBuildGround = false;
         }
 
         if (GameManager.Instance.Money < TowerCost)
@@ -125,5 +141,29 @@ public class TowerController : MonoBehaviour
 
             TimeSinceLastShot = 0.0f;
         }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        BuildSpot = other.GetComponent<BuildSpot>();
+
+        if (BuildSpot.IsOccupied == true)
+        {
+            IsReadyToPlaceTower = false;
+            return;
+        }
+
+        IsReadyToPlaceTower = true;
+        IsStaingOnBuildGround = true;
+
+        BuildPosition = other.transform.position;
+
+        Debug.Log("Trigger Enter with " + other.gameObject.name);
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        IsReadyToPlaceTower = false;
+        BuildSpot = null;
+        Debug.Log("trigger exit");
     }
 }

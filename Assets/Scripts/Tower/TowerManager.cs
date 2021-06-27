@@ -16,6 +16,7 @@ public class TowerManager : SingletonMonoBehaviour<TowerManager>
             TowerCandidate = tower;
         }
     }
+
     public void CancelTowerCandidate()
     {
         if (Input.GetKeyUp(KeyCode.Mouse1) && TowerCandidate == true)
@@ -24,6 +25,7 @@ public class TowerManager : SingletonMonoBehaviour<TowerManager>
             TowerCandidate = null;
         }
     }
+
     public void ChangeTowerCandidate()
     {
         if (TowerCandidate == true)
@@ -32,6 +34,7 @@ public class TowerManager : SingletonMonoBehaviour<TowerManager>
             TowerCandidate = null;
         }
     }
+
     protected virtual void Update()
     {
         CancelTowerCandidate();
@@ -41,17 +44,19 @@ public class TowerManager : SingletonMonoBehaviour<TowerManager>
             TryPlaceTowerCandidate();
         }
     }
+
     private void TryPlaceTowerCandidate()
     {
         if (TowerCandidate == false)
         {
             return;
         }
-        if (TowerCandidate.CheckIfCanBePlaced() == true && GameManager.Instance.TryBuyTower(TowerCandidate) == true)
+        if (TowerCandidate.CheckIfCanBePlaced() == true && TowerCandidate.IsReadyToPlaceTower == true && GameManager.Instance.TryBuyTower(TowerCandidate) == true)
         {
             PlaceTower();
         }
     }
+
     private void PlaceTower()
     {
         TowerRegistry.Add(TowerCandidate);

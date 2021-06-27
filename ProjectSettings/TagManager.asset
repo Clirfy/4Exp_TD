@@ -8,6 +8,8 @@ TagManager:
   - Destination
   - Projectile
   - UI
+  - BuildSpot
+  - Tower
   layers:
   - Default
   - TransparentFX
@@ -21,7 +23,7 @@ TagManager:
   - Destination
   - Enemy
   - Projectile
-  - 
+  - Tower
   - 
   - 
   - 

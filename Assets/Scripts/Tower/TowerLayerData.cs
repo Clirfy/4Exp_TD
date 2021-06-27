@@ -11,5 +11,7 @@ public class TowerLayerData : ScriptableObject
     public LayerMask BuildGroundLayerMask { get; set; }
     [field: SerializeField]
     public LayerMask EnemyLayerMask { get; set; }
+    [field: SerializeField]
+    public LayerMask TowerLayerMask { get; set; }
 
 }
