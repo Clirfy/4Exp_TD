@@ -17,7 +17,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     private GameObject GameOverImage { get; set; }
     [field: SerializeField]
     private GameObject PauseImage { get; set; }
-    private bool IsGamePaused { get; set; } = false;
+    public bool IsGamePaused { get; set; } = false;
 
     private void Update()
     {

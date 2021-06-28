@@ -51,7 +51,8 @@ public class TowerManager : SingletonMonoBehaviour<TowerManager>
         {
             return;
         }
-        if (TowerCandidate.CheckIfCanBePlaced() == true && TowerCandidate.IsReadyToPlaceTower == true && GameManager.Instance.TryBuyTower(TowerCandidate) == true)
+        if (TowerCandidate.CheckIfCanBePlaced() == true && TowerCandidate.IsReadyToPlaceTower == true
+            && GameManager.Instance.TryBuyTower(TowerCandidate) == true)
         {
             PlaceTower();
         }

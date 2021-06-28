@@ -910,7 +910,6 @@ MonoBehaviour:
   <MoneyDropAmmount>k__BackingField: 5
   <Damage>k__BackingField: 1
   <HpSlider>k__BackingField: {fileID: 1010603142727078238}
-  <HpSliderHolder>k__BackingField: {fileID: 4664395324622082787}
   <MeshAgent>k__BackingField: {fileID: 1744539625877013700}
 --- !u!1 &1744539625027893204
 GameObject:

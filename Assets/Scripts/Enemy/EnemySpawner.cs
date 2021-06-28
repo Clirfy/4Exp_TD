@@ -24,6 +24,7 @@ public class EnemySpawner : MonoBehaviour
     [field: SerializeField]
     private float CurrentSpawnRate { get; set; }
     private float TimeSinceLastSpawn { get; set; }
+    private float TimeInCurrentLevel { get; set; }
 
     private void Awake()
     {
@@ -33,6 +34,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void Update()
     {
+        TimeInCurrentLevel += Time.deltaTime;
         TimeSinceLastSpawn += Time.deltaTime;
 
         SpawnEnemyManualy();
@@ -45,7 +47,7 @@ public class EnemySpawner : MonoBehaviour
         }
         if(CurrentSpawnRate > MinSpawnRate)
         {
-            CurrentSpawnRate = Mathf.Lerp(MaxSpawnRate, MinSpawnRate, Time.time / TimeToReachMinSpawnRate);
+            CurrentSpawnRate = Mathf.Lerp(MaxSpawnRate, MinSpawnRate, TimeInCurrentLevel / TimeToReachMinSpawnRate);
         }
     }
 
@@ -71,7 +73,6 @@ public class EnemySpawner : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.L))
         {
-            //var enemy = GameObject.FindGameObjectsWithTag("Enemy");
             foreach (EnemyController enemy in EnemySpawnedCollection)
             {
                 Destroy(enemy.gameObject);
@@ -81,7 +82,6 @@ public class EnemySpawner : MonoBehaviour
 
     private void UnregisterEnemy(EnemyController enemy)
     {
-        //Debug.Log("Enemy Unregistered" + enemy);
         EnemySpawnedCollection.Remove(enemy);
         enemy.OnEnemyDestroy.RemoveListener(UnregisterEnemy);
     }

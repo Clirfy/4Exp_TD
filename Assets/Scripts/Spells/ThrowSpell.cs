@@ -6,27 +6,33 @@ using UnityEngine.UI;
 public class ThrowSpell : MonoBehaviour
 {
     [field: SerializeField]
+    private string ButtonSpellName { get; set; }
+    [field: SerializeField]
     private Button ThisButton { get; set; }
+    [field: SerializeField]
+    private Text ButtonText { get; set; }
     [field: SerializeField]
     private BaseSpellController SpellPrefab { get; set; }
     private float CooldownTimer { get; set; }
 
     private void Awake()
     {
-        CooldownTimer = SpellPrefab.Cooldown;
+        CooldownTimer = 0.0f;
     }
 
     private void Update()
     {
-        CooldownTimer += Time.deltaTime;
+        CooldownTimer -= Time.deltaTime;
 
-        if(CooldownTimer >= SpellPrefab.Cooldown)
+        if(CooldownTimer <= 0.0f)
         {
             ThisButton.interactable = true;
+            ButtonText.text = ButtonSpellName;
         }
         else
         {
             ThisButton.interactable = false;
+            ButtonText.text = CooldownTimer.ToString("F0");
         }
     }
 
@@ -38,6 +44,6 @@ public class ThrowSpell : MonoBehaviour
 
     private void ListenOnSpellCasted()
     {
-        CooldownTimer = 0.0f;
+        CooldownTimer = SpellPrefab.Cooldown;
     }
 }

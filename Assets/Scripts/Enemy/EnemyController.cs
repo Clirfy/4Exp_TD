@@ -27,8 +27,6 @@ public class EnemyController : MonoBehaviour
     [field: SerializeField]
     private NavMeshAgent MeshAgent { get; set; }
 
-    private Camera MainCamera;
-
     private void Awake()
     {
         HpCurrent = HpMax;
@@ -55,11 +53,6 @@ public class EnemyController : MonoBehaviour
             GameManager.Instance.TakeDamage(Damage);
             Destroy(gameObject);
         }
-
-        //if (SharedData.CastleLayerMask.CheckIfContainsLayer(other.gameObject.layer) == true)
-        //{
-        //    EnterCastle();
-        //}
     }
 
     private void OnDestroy()
@@ -80,10 +73,4 @@ public class EnemyController : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    //private void EnterCastle()
-    //{
-    //    GameManager.Instance.TakeDamage(Damage);
-    //    Destroy(gameObject);
-    //}
 }

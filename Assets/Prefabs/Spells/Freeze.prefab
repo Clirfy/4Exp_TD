@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Damage>k__BackingField: 5
-  <Cooldown>k__BackingField: 2
+  <Cooldown>k__BackingField: 8
   <Radius>k__BackingField: 3
   <MaxRaycastDistance>k__BackingField: 100
   <LayerData>k__BackingField: {fileID: 11400000, guid: 4b97bfbe54968e5428c204ea3e12ef50, type: 2}

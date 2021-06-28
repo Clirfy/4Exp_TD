@@ -45,15 +45,20 @@ public class FreezeSpell : BaseSpellController
     {
         if (FreezeTime < 0.0f)
         {
-            for (int i = 0; i < EnemyColliders.Length; i++)
-            {
-                if (EnemyColliders[i] != null)
-                {
-                    EnemyColliders[i].gameObject.GetComponent<NavMeshAgent>().speed = BaseSpeed[i];
-                }
-            }
+            ReturnToEnemyNormalMoveSpeed();
 
             Destroy(gameObject);
+        }
+    }
+
+    private void ReturnToEnemyNormalMoveSpeed()
+    {
+        for (int i = 0; i < EnemyColliders.Length; i++)
+        {
+            if (EnemyColliders[i] != null)
+            {
+                EnemyColliders[i].gameObject.GetComponent<NavMeshAgent>().speed = BaseSpeed[i];
+            }
         }
     }
 }

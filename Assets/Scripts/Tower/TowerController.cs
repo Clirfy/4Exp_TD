@@ -160,6 +160,7 @@ public class TowerController : MonoBehaviour
 
         Debug.Log("Trigger Enter with " + other.gameObject.name);
     }
+
     private void OnTriggerExit(Collider other)
     {
         IsReadyToPlaceTower = false;
